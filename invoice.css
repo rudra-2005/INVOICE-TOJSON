@@ -2,13 +2,14 @@ body {
     font-family: Arial, sans-serif;
     margin: 0;
     padding: 0;
-    background-color: #f4f4f4;
+    background-color: #282222;
+
 }
 
 
 .header{
-    background-color: rgb(24, 24, 57);
-    color: #fff;
+    background-color:#0c146836;
+    color: #ffffff;
     text-align: center;
     height: 100px;
     justify-content: center;
@@ -29,19 +30,20 @@ input[type="file"] {
 button {
     padding: 10px 20px;
     margin: 3px 0;
-    background-color: #61dafb;
+    background-color: #3d35ce;
     border: none;
     border-radius: 5px;
     cursor: pointer;
 }
 
 button:hover {
-    background-color: #21a1f1;
+    background-color: #0c3147;
+    transform: scale(1.1);
 }
 
 pre {
     text-align: left;
-    background-color: #6d7192;
+    background-color: rgb(32, 72, 83);
     padding: 10px;
     border: 1px solid #4d5283;
     border-radius: 5px;
@@ -49,9 +51,10 @@ pre {
     margin:10px auto;
     overflow-x: auto;
     color: #ffffff;
+    
 }
 .header2{
-    background-color: rgb(108, 108, 120);
+    background-color: rgb(32, 72, 83);
     color: #fff;
     text-align: center;
     height: auto;
@@ -60,17 +63,18 @@ pre {
     
 }
 .loading{
-    background-color: #f4f4f4;
-    color: black;
+    background-color: #282222;
+    color: rgb(255, 255, 255);
     text-align: center;
     height: 100px;
     justify-content: center;
     display: flex;
+   
 
 }
 .pdf_name{
-    background-color: #cbc7c7;
-    color: #000000;
+    background-color: #252732;
+    color: #ffffff;
     text-align: center;
     height: auto;
     justify-content: center;
@@ -88,11 +92,20 @@ pre {
     margin: auto ;
 }
 .main{
-    background-color: #d7d9dd;
-    border: solid #d7d9dd;
+    background-color: #252732;
+    border: solid #5e65727b;
     margin: auto;
-    margin-top: 10px;
+    margin-top: 40px;
     margin-bottom: 10px;
     border-radius: 5px;
    width: 900px;
+   padding: 10px;
+   
+
+}
+.a2{
+    color: #fff;
+}
+.a1{
+    color: #ffffff;
 }
