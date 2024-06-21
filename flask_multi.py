@@ -3,10 +3,14 @@ from flask_cors import CORS
 import fitz
 from openai import OpenAI
 import json
+from pymongo import MongoClient
 
 app = Flask(__name__)
 CORS(app)  
 api_key = "YOUR_API_KEY"
+client = MongoClient('mongodb://localhost:"your local host no."')
+db= client['invoiceDB']
+collection=db['invoices']
 
 def read_text_from_pdf(pdf_stream):
     try:
@@ -74,7 +78,9 @@ def extract_invoice_json():
             if output:
                 try:
                     json_data = json.loads(output.message.content)
-                    results.append({uploaded_file.filename: json_data})
+                     insertion_result=collection.insert_one(json_data)
+                    results.append({uploaded_file.filename: {**json_data,'_id': str(insertion_result.inserted_id)}})
+                    # ** unpacks the elements from a dictionary
                 except json.JSONDecodeError:
                     results.append({uploaded_file.filename: {'error': 'Error converting response to JSON'}})
             else:
