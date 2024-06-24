@@ -30,7 +30,7 @@ input[type="file"] {
 button {
     padding: 10px 20px;
     margin: 3px 0;
-    background-color: #3d35ce;
+    background-color: #3228be;
     border: none;
     border-radius: 5px;
     cursor: pointer;
@@ -108,4 +108,38 @@ pre {
 }
 .a1{
     color: #ffffff;
+}
+.invoice-list{
+    background-color: #252732;
+    border: solid #5e65727b;
+    
+    margin: 10px;
+    text-align:center;
+   
+    padding:0;
+    color: #fff;
+    height: 50px;
+    margin-top: 20PX;
+    justify-content: center;
+    
+   
+    
+
+}
+.mainbox{
+    display: flex;
+
+}
+.no-list-box{
+   
+    justify-content: center;
+    margin: auto;
+   
+}
+
+.select{
+    background-color:  rgb(32, 72, 83);
+    color: #fff;
+    border: solid gray;
+    
 }
