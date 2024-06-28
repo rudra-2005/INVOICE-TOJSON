@@ -115,7 +115,7 @@ const FileUploader: React.FC = () => {
 
       const value = data[key];
 
-      if (key === "invoiceDetails") {
+      if (key === "invoice_details") {
         // Render invoice details as nested form
         return (
           <div key={index} className='form-group'>
@@ -136,7 +136,7 @@ const FileUploader: React.FC = () => {
           </div>
         );
       }
-      else if (key === "taxDetails") {
+      else if (key === "tax_details") {
         // Render invoice details as nested form
         return (
           <div key={index} className='form-group'>
@@ -280,3 +280,4 @@ const FileUploader: React.FC = () => {
 };
 
 export default FileUploader;
+
