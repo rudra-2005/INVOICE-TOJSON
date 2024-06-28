@@ -1,39 +1,50 @@
+
 body {
     font-family: Arial, sans-serif;
     margin: 0;
     padding: 0;
     background-color: #282222;
-
+    color: #ffffff;
 }
 
 
-.header{
-    background-color:#0c146836;
+.header {
+    background-color: #0c146836;
     color: #ffffff;
     text-align: center;
-    height: 100px;
-    justify-content: center;
-    display: flex;
+    padding: 20px;
+    border-bottom: 2px solid #5e65727b;
 }
-.filehandler{
-    margin-top: 20px;
-    justify-content: center;
-    display: flex;
+
+
+.header2 {
+    background-color: rgb(32, 72, 83);
+    color: #ffffff;
     text-align: center;
-    
+    padding: 10px 0;
+}
+
+
+.filehandler {
+    margin: 20px 0;
+    text-align: center;
+    display: flex;
+    justify-content: center;
+    gap: 30px;
 }
 
 input[type="file"] {
-    margin: 10px 0;
+    padding: 10px;
+    color: #ffffff;
 }
 
 button {
     padding: 10px 20px;
-    margin: 3px 0;
-    background-color: #3228be;
+    background-color: rgb(32, 72, 83);
     border: none;
     border-radius: 5px;
     cursor: pointer;
+    color: #ffffff;
 }
 
 button:hover {
@@ -41,105 +52,175 @@ button:hover {
     transform: scale(1.1);
 }
 
+
 pre {
-    text-align: left;
     background-color: rgb(32, 72, 83);
-    padding: 10px;
+    padding: 20px;
     border: 1px solid #4d5283;
     border-radius: 5px;
     max-width: 800px;
-    margin:10px auto;
+    margin: 20px auto;
     overflow-x: auto;
     color: #ffffff;
+}
+
+
+.loading {
+    text-align: center;
+    padding: 20px;
+}
+
+
+.pdf_name {
+    border: solid rgba(128, 128, 128, 0.173);
+   margin-left: 40px;
+    background-color: #252732;
+    padding: 10px;
+    border-radius: 5px;
+    
+    font-weight: bold;
+    text-align: center;
+}
+
+
+.mainbox {
+    display: flex;
     
 }
-.header2{
+
+
+
+
+.invoice-list {
+    background-color: #252732;
+    border: 2px solid #5e65727b;
+    padding: 10px;
+    border-radius: 5px;
+    width:auto;
+    margin-left: 20px;
+    margin-right: 10px;
+    height:max-content;
+   text-align: center;
+}
+
+.invoice-data {
+    background-color: #252732;
+    border: 2px solid #5e65727b;
+    border-radius: 5px;
+    padding: 20px;
+    width: 100%;
+}
+
+
+.form1{
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    width: 100%;
+    background-color: #294e626f;
+    padding: 20px;
+    border-radius: 5px;
+}
+ .form2 {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    width: 100%;
+    background-color: #294e626f;
+    padding: 20px;
+    border-radius: 5px;
+    border: solid rgba(76, 76, 76, 0.4);
+}
+
+.form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    padding: 5px;
+}
+
+.form-group label {
+    font-size: 15px;
+    background-color: #151516c3;
+    padding: 10px;
+    font-weight: bold;
+    color: #fffdfde6;
+    text-align: center;
+    border-radius: 5px;
+}
+
+.form-control {
+    padding: 10px;
+    font-size: 14px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    background-color: #2c6559;
+    color: #ffffff;
+}
+
+.form-control:focus {
+    border-color: #282222;
+    outline: none;
+    background-color: #62686b;
+}
+
+
+.submit {
+    padding: 10px;
+    border: 1px solid #282222;
+    border-radius: 5px;
     background-color: rgb(32, 72, 83);
-    color: #fff;
-    text-align: center;
-    height: auto;
-    justify-content: center;
-    display: flex;
-    
-}
-.loading{
-    background-color: #282222;
-    color: rgb(255, 255, 255);
-    text-align: center;
-    height: 100px;
-    justify-content: center;
-    display: flex;
-   
-
-}
-.pdf_name{
-    background-color: #252732;
     color: #ffffff;
-    text-align: center;
-    height: auto;
-    justify-content: center;
+    cursor: pointer;
+    align-self:center
+}
+
+.submit:hover {
+    background-color: #0c3147;
+    transform: scale(1.1);
+}
+
+
+
+.invoice-body {
     display: flex;
-    margin: 10px;
+    flex-direction: column;
+    padding: 20px;
+    gap: 20px;
+    border: 2px solid #5e65727b;
     border-radius: 5px;
-   
-
-}
-.copy{
-    display: flex;
-    justify-content: center;
-    text-align: center;
-    color: #ffffff;
-    margin: auto ;
-}
-.main{
     background-color: #252732;
-    border: solid #5e65727b;
-    margin: auto;
-    margin-top: 40px;
-    margin-bottom: 10px;
+}
+
+.invoice-item {
+    display: flex;
+    justify-content: space-between;
+    padding: 10px;
+    background-color: #294e626f;
     border-radius: 5px;
-   width: 900px;
-   padding: 10px;
-   
-
-}
-.a2{
-    color: #fff;
-}
-.a1{
-    color: #ffffff;
-}
-.invoice-list{
-    background-color: #252732;
-    border: solid #5e65727b;
-    
-    margin: 10px;
-    text-align:center;
-   
-    padding:0;
-    color: #fff;
-    height: 50px;
-    margin-top: 20PX;
-    justify-content: center;
-    
-   
-    
-
-}
-.mainbox{
-    display: flex;
-
-}
-.no-list-box{
-   
-    justify-content: center;
-    margin: auto;
-   
 }
 
+
+
+.invoice-item label {
+    flex: 1;
+    padding: 5px;
+}
+
+.invoice-item .form-control {
+    flex: 2;
+    margin-left: 10px;
+}
 .select{
-    background-color:  rgb(32, 72, 83);
-    color: #fff;
-    border: solid gray;
-    
+    width:auto;
+    background-color: #2c6559;
+    color: #ffffff;
+    border-radius: 3px;
+    border: solid rgba(80, 78, 78, 0.458);
+}
+.nested-form{
+    display: flex;
+    gap: 5px;
+    margin-left: 20px;
+ 
 }
