@@ -7,7 +7,7 @@ from pymongo import MongoClient
 
 app = Flask(__name__)
 CORS(app)
-api_key = "YOUR_API_KEY"
+api_key = "YOUR_OPEN_AI_KEY"
 client = MongoClient('mongodb://localhost:27017/')
 
 db = client['invoiceDB']
@@ -41,27 +41,51 @@ def com_with_AI(api_key, text):
                 {"role": "user", "content": "3. Purchase order number"},
                 {"role": "user", "content": "4. Purchase date (format: YYYY-MM-DD)"},
                 {"role": "user", "content": "5. Purchaser address"},
-                {"role": "user", "content": "6. List of items (name, quantity, unit price, total price)"},
-                {"role": "user", "content": "7. PAN ID"},
-                {"role": "user", "content": "8. GST number"},
+                {"role": "user", "content": "6. PAN ID"},
+                {"role": "user", "content": "7. GST number"},
+                {"role": "user", "content": "8. List of items"},
                 {"role": "user", "content": "9. Total amount including GST"},
                 {"role": "user",
-                 "content": "Output the results as a single JSON object in one line without any backslashes. If an attribute has a value of 0, include it in the output with the value 0."},
+                 "content": "Output the results as a single JSON object with the following structure, ensuring no backslashes are present:"},
+                {"role": "user", "content": """
+            {
+              "Details": {
+              "invoice_details":{
+                "invoice_number": "string"
+                "invoices_date": "YYYY-MM-DD",
+                "purchase_order_number": "string",
+                "purchases_date": "YYYY-MM-DD"
+                
+                }
+                 "tax_details":{
+                 "pan_id": "string",
+                 "gst_number": "string",
+                 },
+                "purchaser_address": "string",
+              },
+              
+              
+             
+              
+              "purchase_details":{"items": [
+              ],
+              "total_amount_with_gst": number
+              }
+            }
+                """},
+                {"role": "user", "content": "Ensure all attributes are included even if they have a value of 0."},
                 {"role": "user",
                  "content": "If the invoice spans multiple pages or there are multiple invoices in one PDF but share the same address and ID, merge them into a single invoice."},
                 {"role": "user",
-                 "content": "For all price and quantity values, ensure they are in number format (not string format). For example, \"quantity\": 2 and \"unit_price\": 100.00."},
+                 "content": "For all price and quantity values, ensure they are in number format (not string format). For example, 'quantity': 2 and 'unit_price': 100.00."},
                 {"role": "user",
-                 "content": "Replace any special characters or symbols such as '\u20b9' with 'Rs.' throughout the document."},
+                 "content": "Replace any special characters or symbols such as '\\u20b9' with 'Rs.' throughout the document."},
                 {"role": "user",
-                 "content": "The currency has to be mentioned seperately just before the list of items "},
-                {"role": "user",
-                 "content": "Here is an example of the expected JSON format: {\"invoice_date\": \"2023-05-21\", \"invoice_number\": \"INV123456\", \"purchase_order_number\": \"PO654321\", \"purchase_date\": \"2023-05-20\", \"purchaser_address\": \"123 Street Name, City, State, ZIP\", \"items\": [{\"name\": \"Item1\", \"quantity\": 2, \"unit_price\": 100, \"total_price\": 200}, {\"name\": \"Item2\", \"quantity\": 0, \"unit_price\": 0, \"total_price\": 0}], \"pan_id\": \"ABCDE1234F\", \"gst_number\": \"12ABCDE3456F1Z1\", \"total_amount_with_gst\": 230.50}."},
+                 "content": "Here is an example of the expected JSON format: {\"Details\":{\"invoice_details\":{ \"invoice_number\": \"INV123456\",\"invoices_date\": \"2023-05-21\", \"purchase_order_number\": \"PO654321\",\"purchases_date\": \"2023-05-20\"},  \"tax_details\":{\"pan_id\": \"ABCDE1234F\", \"gst_number\": \"12ABCDE3456F1Z1\"},\"purchaser_address\": \"123 Street Name, City, State, ZIP\"}, \"purchase_details\":{\"items\": [{\"name\": \"Item1\", \"quantity\": 2, \"unit_price\": 100, \"total_price\": 200}, {\"name\": \"Item2\", \"quantity\": 0, \"unit_price\": 0, \"total_price\": 0}], \"total_amount_with_gst\": 230.50}}."},
                 {"role": "user", "content": "Provide only the JSON output in the specified format."},
                 {"role": "user", "content": "If any required fields are missing or empty, set their values to 'N/A'."},
                 {"role": "user",
-                 "content": "Sum the 'total price' of all items to verify it matches the 'total amount with GST'."}
-
+                 "content": "Sum the 'total_price' of all items to verify it matches the 'total_amount_with_gst'."}
             ]
         )
         return response.choices[0]
@@ -74,7 +98,7 @@ def com_with_AI(api_key, text):
 def extract_invoice_json():
     if 'files' not in request.files:
         return jsonify({'error': 'No files uploaded'}), 400
-
+    print(request.files)
     files = request.files.getlist('files')
     results = []
 
@@ -89,7 +113,7 @@ def extract_invoice_json():
             if output:
                 try:
                     json_data = json.loads(output.message.content)
-                    json_data['filename'] = uploaded_file.filename#added
+                    json_data['filename'] = uploaded_file.filename  # Ensure filename is included
                     insertion_result = collection.insert_one(json_data)
                     results.append({uploaded_file.filename: {**json_data, '_id': str(insertion_result.inserted_id)}})
                 except json.JSONDecodeError:
@@ -100,6 +124,7 @@ def extract_invoice_json():
             results.append({uploaded_file.filename: {'error': 'Could not read text from PDF'}})
 
     return jsonify(results)
+
 
 @app.route('/list_invoices', methods=['GET'])
 def list_invoices():
@@ -123,6 +148,28 @@ def get_invoice_json():
         return jsonify(invoice)
     else:
         return jsonify({'error': 'Invoice not found'}), 404
+
+@app.route('/update_invoice', methods=['PUT'])
+def update_invoice():
+    data = request.get_json()
+
+    if not data or 'filename' not in data:
+        return jsonify({'error': 'Invalid data. Filename is required.'}), 400
+
+    filename = data.pop('filename', None)
+    if not filename:
+        return jsonify({'error': 'Filename is missing.'}), 400
+
+    try:
+        result = collection.update_one({'filename': filename}, {'$set': data})
+        if result.matched_count > 0:
+            return jsonify({'success': 'Invoice updated successfully'})
+        else:
+            return jsonify({'error': 'Invoice not found'}), 404
+    except Exception as e:
+        print(f"Error updating invoice in MongoDB: {e}")
+        return jsonify({'error': 'Failed to update invoice'}), 500
+
 
 
 
