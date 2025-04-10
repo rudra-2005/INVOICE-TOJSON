@@ -13,7 +13,7 @@ fine_tuning_job=client.fine_tuning.jobs.create(
   training_file=file.id,
  model="gpt-3.5-turbo", 
   hyperparameters={
-    "n_epochs":1
+    "n_epochs":10
   }
  ) 
 print(fine_tuning_job)
